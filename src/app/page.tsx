@@ -133,7 +133,7 @@ export default function Home() {
                 <div className="absolute -inset-4 bg-gradient-to-r from-green-500 to-blue-500 rounded-xl opacity-30 blur-lg"></div>
                 <div className="relative aspect-square rounded-xl overflow-hidden border-2 border-white/10">
                   <Image
-                    src="/placeholder.svg?height=500&width=500"
+                    src="/perfil.jpeg"
                     alt="Desenvolvedor"
                     width={500}
                     height={500}
@@ -232,15 +232,15 @@ export default function Home() {
             {[
               { name: "HTML5", level: 95 },
               { name: "CSS3/Sass", level: 90 },
-              { name: "JavaScript", level: 92 },
-              { name: "TypeScript", level: 88 },
-              { name: "React", level: 94 },
-              { name: "Next.js", level: 90 },
-              { name: "Tailwind CSS", level: 92 },
-              { name: "Redux", level: 85 },
-              { name: "Node.js", level: 80 },
-              { name: "Git/GitHub", level: 88 },
-              { name: "Figma", level: 85 },
+              { name: "JavaScript", level: 95 },
+              { name: "TypeScript", level: 90 },
+              { name: "React", level: 95 },
+              { name: "Next.js", level: 85 },
+              { name: "Tailwind CSS", level: 90 },
+              { name: "Context API", level: 95 },
+              { name: "Node.js", level: 70 },
+              { name: "Git/GitHub", level: 90 },
+              { name: "Figma", level: 80 },
               { name: "Testes", level: 82 },
             ].map((skill) => (
               <Card
