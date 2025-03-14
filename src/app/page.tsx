@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { Button } from "../components/ui/button";
 import { Card, CardContent } from "../components/ui/card";
@@ -13,6 +15,9 @@ import {
   ArrowRight,
   ExternalLink,
 } from "lucide-react";
+
+import dynamic from "next/dynamic";
+const Footer = dynamic(() => import("./components/footer"), { ssr: false });
 
 export default function Home() {
   return (
@@ -130,8 +135,8 @@ export default function Home() {
           <div className="flex flex-col md:flex-row gap-12 items-center">
             <div className="md:w-2/5">
               <div className="relative">
-                <div className="absolute -inset-4 bg-gradient-to-r from-green-500 to-blue-500 rounded-xl opacity-30 blur-lg"></div>
-                <div className="relative aspect-square rounded-xl overflow-hidden border-2 border-white/10">
+                <div className="absolute -inset-4 w-[540px] bg-gradient-to-r from-green-500 to-blue-500 rounded-xl opacity-30 blur-md"></div>
+                <div className="relative  w-[500px] aspect-square rounded-xl overflow-hidden border-2 border-white/10">
                   <Image
                     src="/perfil.jpeg"
                     alt="Desenvolvedor"
@@ -689,14 +694,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="border-t border-gray-700 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400 text-sm">
-              © {new Date().getFullYear()} BRDEV. Todos os direitos reservados.
-            </p>
-            <p className="text-gray-400 text-sm">
-              Desenvolvido com ❤️ em React e Next.js
-            </p>
-          </div>
+          <Footer />
         </div>
       </footer>
     </div>
