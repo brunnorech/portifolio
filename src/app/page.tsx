@@ -14,9 +14,12 @@ import {
   Mail,
   ArrowRight,
   ExternalLink,
+  Check,
+  User,
 } from "lucide-react";
 
 import dynamic from "next/dynamic";
+import ProjectExperience from "./components/project-experience";
 const Footer = dynamic(() => import("./components/footer"), { ssr: false });
 
 export default function Home() {
@@ -132,17 +135,17 @@ export default function Home() {
             </h2>
           </div>
 
-          <div className="flex flex-col lg:flex-row gap-12 items-center">
+          <div className="flex flex-col lg:flex-row gap-8 items-center">
             <div className="lg:w-2/5">
-              <div className="relative">
-                <div className="absolute -inset-4 w-auto bg-gradient-to-r from-sky-500 to-blue-500 rounded-xl opacity-30 blur-md"></div>
-                <div className="relative  w-auto aspect-square rounded-xl overflow-hidden border-2 border-white/10">
+              <div className="relative h-[500px]">
+                <div className="absolute -inset-4 w-[430px] h-[530px] bg-gradient-to-r from-sky-500 to-blue-500 rounded-xl opacity-30 blur-md"></div>
+                <div className="relative  w-[400px] h-[500px] aspect-square rounded-xl overflow-hidden border-2 border-white/10">
                   <Image
                     src="/perfil.jpeg"
                     alt="Desenvolvedor"
-                    width={500}
+                    width={400}
                     height={500}
-                    className="object-cover"
+                    className="h-full object-cover object-[50%_30%]"
                   />
                 </div>
               </div>
@@ -285,101 +288,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                title: "E-commerce Moderno",
-                description:
-                  "Plataforma de e-commerce completa com carrinho, pagamentos e área do cliente",
-                image: "/placeholder.svg?height=400&width=600",
-                tags: ["React", "Next.js", "Stripe", "Tailwind"],
-              },
-              {
-                title: "Dashboard Analítico",
-                description:
-                  "Painel administrativo com visualizações de dados e relatórios em tempo real",
-                image: "/placeholder.svg?height=400&width=600",
-                tags: ["TypeScript", "React", "Chart.js", "Redux"],
-              },
-              {
-                title: "Aplicativo de Finanças",
-                description:
-                  "Aplicativo para controle financeiro pessoal com gráficos e categorização",
-                image: "/placeholder.svg?height=400&width=600",
-                tags: ["React", "Firebase", "Styled Components"],
-              },
-              {
-                title: "Rede Social",
-                description:
-                  "Plataforma de rede social com feed, perfis e sistema de mensagens",
-                image: "/placeholder.svg?height=400&width=600",
-                tags: ["Next.js", "MongoDB", "Socket.io", "Tailwind"],
-              },
-              {
-                title: "Plataforma Educacional",
-                description:
-                  "Sistema de cursos online com vídeos, quizzes e certificados",
-                image: "/placeholder.svg?height=400&width=600",
-                tags: ["React", "Node.js", "PostgreSQL", "AWS"],
-              },
-              {
-                title: "Aplicativo de Delivery",
-                description:
-                  "Aplicativo para pedidos de comida com rastreamento em tempo real",
-                image: "/placeholder.svg?height=400&width=600",
-                tags: ["React Native", "Redux", "Google Maps API"],
-              },
-            ].map((project, index) => (
-              <Card
-                key={index}
-                className="overflow-hidden border-none bg-[rgb(66,74,89)] shadow-xl group"
-              >
-                <div className="relative h-48 overflow-hidden">
-                  <Image
-                    src={project.image || "/placeholder.svg"}
-                    alt={project.title}
-                    width={600}
-                    height={400}
-                    className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[rgb(66,74,89)] to-transparent opacity-0 group-hover:opacity-70 transition-opacity duration-300"></div>
-                  <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <Button
-                      size="sm"
-                      className="bg-sky-500 hover:bg-sky-600 text-white rounded-full"
-                    >
-                      <ExternalLink className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    {project.title}
-                  </h3>
-                  <p className="text-gray-300 mb-4 text-sm">
-                    {project.description}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag) => (
-                      <Badge
-                        key={tag}
-                        variant="secondary"
-                        className="bg-sky-500/20 text-sky-400"
-                      >
-                        {tag}
-                      </Badge>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <Button className="bg-sky-500 hover:bg-sky-600 text-white">
-              Ver Todos os Projetos <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </div>
+          <ProjectExperience />
         </div>
       </section>
 
@@ -391,76 +300,64 @@ export default function Home() {
               Depoimentos
             </Badge>
             <h2 className="text-3xl md:text-4xl font-bold text-white">
-              O que os <span className="text-sky-400">Clientes Dizem</span>
+              O que os{" "}
+              <span className="text-sky-400">Colegas de trabalho </span>
+              Dizem
             </h2>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
-                name: "Ana Silva",
-                role: "CEO, TechStart",
+                name: "Bruno Nascimento",
+                role: "Desenvolvedor | HCIA-AI",
                 content:
-                  "Trabalhar com a Business Rech foi uma experiência incrível. O profissionalismo e a qualidade do trabalho superaram todas as nossas expectativas.",
-                image: "/placeholder.svg?height=100&width=100",
+                  "Recomendo muito o Bruno, um habilidoso profissional especializado em React, React Native e TypeScript. Trabalhamos juntos em diversos projetos, e suas competências técnicas e comprometimento sempre foram notáveis.",
+                date: "15 de fevereiro de 2024",
               },
               {
-                name: "Carlos Mendes",
-                role: "Diretor de Marketing, InnovateBR",
+                name: "Felippe Costa",
+                role: "Suporte Especializado PL TIVIT",
                 content:
-                  "O redesign do nosso site aumentou significativamente nossas conversões. A atenção aos detalhes e a experiência do usuário são impecáveis.",
-                image: "/placeholder.svg?height=100&width=100",
+                  "Tive o prazer de colaborar com Bruno em alguns projetos, onde sua experiência excepcional em React Native e TypeScript se destacou. Sua capacidade de transformar conceitos complexos em soluções elegantes e eficientes, seu foco e dedicação foram inspiradoras para toda equipe, um excelente profissional.",
+                date: "12 de fevereiro de 2024",
               },
               {
-                name: "Juliana Costa",
-                role: "Fundadora, EduTech",
+                name: "Mohamed Nasser El Lakkis",
+                role: "Desenvolvedor | Java, React.js, Next.js, React native",
                 content:
-                  "Nossa plataforma educacional ganhou vida com o trabalho da Business Rech. A interface intuitiva e responsiva recebeu elogios de todos os usuários.",
-                image: "/placeholder.svg?height=100&width=100",
+                  "O Bruno é um excelência companheiro de equipe, sempre disposto a te ajudar e resolver algum problema no código. Super atencioso e proporciona uma excelente convivência em equipe, sendo dinâmico. Bruno sempre foi muito esforçado e comprometido com a equipe.",
+                date: "24 de agosto de 2022",
               },
-            ].map((testimonial, index) => (
+              {
+                name: "Antonio Carlos",
+                role: "Desenvolvedor Front-End | ReactJS & Next.js | Typescript | JavaScript",
+                content: "Manda bem no ReactJS",
+                date: "24 de agosto de 2022",
+              },
+            ].map((recommendation, index) => (
               <Card
                 key={index}
                 className="bg-[rgb(56,64,79)] border-none shadow-lg"
               >
                 <CardContent className="p-8">
-                  <div className="flex items-center mb-6">
-                    <div className="relative w-12 h-12 mr-4">
-                      <Image
-                        src={testimonial.image || "/placeholder.svg"}
-                        alt={testimonial.name}
-                        width={100}
-                        height={100}
-                        className="rounded-full object-cover"
-                      />
-                      <div className="absolute -bottom-1 -right-1 bg-sky-500 rounded-full p-1">
-                        <svg
-                          width="8"
-                          height="8"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M20 6L9 17L4 12"
-                            stroke="white"
-                            strokeWidth="3"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </div>
+                  <div className="flex items-start mb-6">
+                    <div className="bg-sky-500 rounded-full p-1.5 mr-4 mt-1 flex-shrink-0">
+                      <User className="h-4 w-4 text-white" />
                     </div>
                     <div>
                       <h3 className="text-white font-medium">
-                        {testimonial.name}
+                        {recommendation.name}
                       </h3>
-                      <p className="text-gray-400 text-sm">
-                        {testimonial.role}
+                      <p className="text-gray-400 text-sm mb-1">
+                        {recommendation.role}
+                      </p>
+                      <p className="text-gray-500 text-xs">
+                        {recommendation.date}
                       </p>
                     </div>
                   </div>
-                  <p className="text-gray-300 italic">{testimonial.content}</p>
+                  <p className="text-gray-300">{recommendation.content}</p>
                 </CardContent>
               </Card>
             ))}
@@ -501,7 +398,9 @@ export default function Home() {
                   </div>
                   <div>
                     <h4 className="text-white font-medium">LinkedIn</h4>
-                    <p className="text-gray-300">linkedin.com/in/brech</p>
+                    <p className="text-gray-300">
+                      linkedin.com/in/bruno-rech-70291492
+                    </p>
                   </div>
                 </div>
 
@@ -513,32 +412,6 @@ export default function Home() {
                     <h4 className="text-white font-medium">GitHub</h4>
                     <p className="text-gray-300">github.com/brunnorech</p>
                   </div>
-                </div>
-              </div>
-
-              <div className="pt-6">
-                <h3 className="text-white font-medium mb-4">
-                  Me siga nas redes sociais
-                </h3>
-                <div className="flex space-x-4">
-                  {["twitter", "instagram", "facebook", "youtube"].map(
-                    (social) => (
-                      <a
-                        key={social}
-                        href={`https://${social}.com`}
-                        className="bg-[rgb(66,74,89)] p-3 rounded-full hover:bg-sky-500/20 transition-colors"
-                      >
-                        <span className="sr-only">{social}</span>
-                        <svg
-                          className="h-5 w-5 text-white"
-                          fill="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-2 16h-2v-6h2v6zm-1-6.891c-.607 0-1.1-.496-1.1-1.109 0-.612.492-1.109 1.1-1.109s1.1.497 1.1 1.109c0 .613-.493 1.109-1.1 1.109zm8 6.891h-1.998v-2.861c0-1.881-2.002-1.722-2.002 0v2.861h-2v-6h2v1.093c.872-1.616 4-1.736 4 1.548v3.359z" />
-                        </svg>
-                      </a>
-                    )
-                  )}
                 </div>
               </div>
             </div>
