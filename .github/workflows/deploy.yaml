@@ -37,9 +37,25 @@ jobs:
           username: brech
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ".next/standalone/"
-          server-dir: ./standalone/
+          server-dir: .brech.dev/standalone/
           protocol: ftps
           exclude: |
             **/.git*
             **/.github*
             **/node_modules/**
+
+      - name: Criar e enviar restart.txt para /tmp
+        run: |
+          echo "" > restart.txt
+        shell: bash
+
+      - name: Deploy restart.txt para a pasta /tmp via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: sospix.com.br
+          username: brech
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: "./"
+          server-dir: "/tmp/"
+          protocol: ftps
+          include: "restart.txt"

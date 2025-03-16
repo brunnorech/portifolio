@@ -60,7 +60,7 @@ export default function Home() {
       >
         <div className="md:w-1/2 space-y-6">
           <Badge className="bg-sky-500/20 text-sky-400 hover:bg-sky-500/20 px-4 py-1 text-sm">
-            Desenvolvedor Fullstack
+            Engenheiro de Software
           </Badge>
           <h1 className="text-4xl md:text-6xl font-bold text-white leading-tight">
             Transformando ideias em{" "}
