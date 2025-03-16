@@ -9,6 +9,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: PLESK
     steps:
       - name: Checkout código
         uses: actions/checkout@v3
@@ -19,7 +20,7 @@ jobs:
           node-version: 20.x
 
       - name: Instalar dependências
-        run: npm ci
+        run: npm install
 
       - name: Gerar build da aplicação
         run: npm run build
@@ -42,13 +43,3 @@ jobs:
             **/.git*
             **/.github*
             **/node_modules/**
-
-      - name: Reiniciar Aplicação (SSH opcional)
-        if: success()
-        uses: appleboy/ssh-action@v0.1.6
-        with:
-          host: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            pm2 restart next-app || pm2 start .next/standalone/server.js --name "next-app"
