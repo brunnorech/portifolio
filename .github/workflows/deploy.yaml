@@ -60,6 +60,6 @@ jobs:
           username: brech
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: "./"
-          server-dir: "/tmp/"
+          server-dir: "./tmp/"
           protocol: ftps
           include: "restart.txt"
