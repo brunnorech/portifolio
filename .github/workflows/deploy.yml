@@ -1,0 +1,53 @@
+name: Deploy Next.js to Plesk
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.x
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Gerar build da aplicação
+        run: npm run build
+
+      - name: Preparar estrutura de arquivos
+        run: |
+          mkdir -p .next/standalone/public
+          cp -r .next/static .next/standalone/
+          cp -r public .next/standalone/
+
+      - name: Deploy para o Plesk via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4
+        with:
+          server: ${{ vars.FTP_SERVER }}
+          username: ${{ vars.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ".next/standalone/"
+          server-dir: ${{ vars.REMOTE_DIR }}
+          exclude: |
+            **/.git*
+            **/.github*
+            **/node_modules/**
+
+      - name: Reiniciar Aplicação (SSH opcional)
+        if: success()
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ vars.FTP_SERVER }}
+          username: ${{ vars.FTP_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            pm2 restart next-app || pm2 start .next/standalone/server.js --name "next-app"

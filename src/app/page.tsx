@@ -13,8 +13,6 @@ import {
   Linkedin,
   Mail,
   ArrowRight,
-  ExternalLink,
-  Check,
   User,
 } from "lucide-react";
 
