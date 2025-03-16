@@ -33,11 +33,12 @@ jobs:
       - name: Deploy para o Plesk via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
+          server: sospix.com.br
+          username: brech
+          password: kn03B1&9y
           local-dir: ".next/standalone/"
-          server-dir: ${{ secrets.REMOTE_DIR }}
+          server-dir: ./brech.dev/
+          protocol: ftps
           exclude: |
             **/.git*
             **/.github*

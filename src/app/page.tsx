@@ -23,6 +23,7 @@ const Footer = dynamic(() => import("./components/footer"), { ssr: false });
 export default function Home() {
   return (
     <div className="min-h-screen bg-[rgb(66,74,89)]">
+      <span>asdf</span>
       <header className="container mx-auto py-6 px-4 flex justify-between items-center">
         <div className="w-48">
           <Image
