@@ -38,31 +38,29 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ".next/standalone/"
           server-dir: ".brech.dev/standalone/"
-          transferMode: "active"
-          concurrentConnections: 2
           protocol: ftps
           exclude: |
             **/.git*
             **/.github*
             **/node_modules/**
 
-  deploy-restart:
-    runs-on: ubuntu-latest
-    needs: deploy # Aguarda a finalização do job "deploy"
-    steps:
-      - name: Checkout código
-        uses: actions/checkout@v3
+  # deploy-restart:
+  #   runs-on: ubuntu-latest
+  #   needs: deploy # Aguarda a finalização do job "deploy"
+  #   steps:
+  #     - name: Checkout código
+  #       uses: actions/checkout@v3
 
-      - name: Criar restart.txt
-        run: echo "" > restart.txt
+  #     - name: Criar restart.txt
+  #       run: echo "" > restart.txt
 
-      - name: Deploy restart.txt para a pasta /tmp via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: sospix.com.br
-          username: brech
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: "./"
-          server-dir: "/tmp/"
-          protocol: ftps
-          include: "restart.txt"
+  #     - name: Deploy restart.txt para a pasta /tmp via FTP
+  #       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+  #       with:
+  #         server: sospix.com.br
+  #         username: brech
+  #         password: ${{ secrets.FTP_PASSWORD }}
+  #         local-dir: "./"
+  #         server-dir: "/tmp/"
+  #         protocol: ftps
+  #         include: "restart.txt"
