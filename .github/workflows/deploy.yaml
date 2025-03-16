@@ -35,9 +35,9 @@ jobs:
         with:
           server: sospix.com.br
           username: brech
-          password: kn03B1&9y
+          password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ".next/standalone/"
-          server-dir: ./brech.dev/
+          server-dir: ./standalone/
           protocol: ftps
           exclude: |
             **/.git*
