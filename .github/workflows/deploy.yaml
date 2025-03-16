@@ -47,8 +47,8 @@ jobs:
         if: success()
         uses: appleboy/ssh-action@v0.1.6
         with:
-          host: ${{ vars.FTP_SERVER }}
-          username: ${{ vars.FTP_USERNAME }}
+          host: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             pm2 restart next-app || pm2 start .next/standalone/server.js --name "next-app"
