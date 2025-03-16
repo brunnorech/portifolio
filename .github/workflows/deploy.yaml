@@ -38,6 +38,8 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ".next/standalone/"
           server-dir: ".brech.dev/standalone/"
+          transferMode: "active"
+          concurrentConnections: 2
           protocol: ftps
           exclude: |
             **/.git*
