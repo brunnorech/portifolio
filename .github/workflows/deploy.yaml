@@ -60,6 +60,6 @@ jobs:
           username: brech
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: "./"
-          server-dir: "./brech.dev/"
+          server-dir: "./brech.dev/standalone/"
           protocol: ftps
           include: ".plesk.restart"
