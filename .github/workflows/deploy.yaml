@@ -21,6 +21,18 @@ jobs:
       - name: Instalar dependências
         run: npm install
 
+      - name: Criar arquivo de debug das variáveis de ambiente
+        run: |
+          echo "SMTP_HOST=${SMTP_HOST}" > env-debug.txt
+          echo "SMTP_PORT=${SMTP_PORT}" >> env-debug.txt
+          echo "SMTP_USER=${SMTP_USER}" >> env-debug.txt
+          echo "SMTP_PASS=${SMTP_PASS}" >> env-debug.txt
+        env:
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+
       - name: Gerar build da aplicação
         run: npm run build
         env:
@@ -33,6 +45,9 @@ jobs:
         run: |
           cp -r .next/static .next/standalone/.next/
           cp -r public .next/standalone/
+
+      - name: Copiar arquivo de debug para deploy
+        run: cp env-debug.txt .next/standalone/
 
       - name: Deploy para o Plesk via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
