@@ -191,7 +191,7 @@ export default function Home() {
 
             <div className="md:w-3/5 space-y-6">
               <h3 className="text-2xl font-bold text-white">
-                Engenheiro de Software Apaixonado.
+                Engenheiro de Software Apaixonado
               </h3>
               <p className="text-gray-300">
                 Com mais de 5 anos de experiência no desenvolvimento de
