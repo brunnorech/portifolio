@@ -43,23 +43,3 @@ jobs:
             **/.git*
             **/.github*
             **/node_modules/**
-  deploy-restart:
-    runs-on: ubuntu-latest
-    needs: deploy
-    steps:
-      - name: Checkout código
-        uses: actions/checkout@v3
-
-      - name: Criar arquivo .plesk.restart
-        run: echo "" > .plesk.restart
-
-      - name: Enviar .plesk.restart para a raiz do servidor
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: sospix.com.br
-          username: brech
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: "./"
-          server-dir: "./brech.dev/standalone/"
-          protocol: ftps
-          include: ".plesk.restart"
