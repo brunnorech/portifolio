@@ -41,7 +41,7 @@ jobs:
           username: brech
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ".next/standalone/"
-          server-dir: ./standalone/
+          server-dir: standalone/
           protocol: ftps
           exclude: |
             **/.git*
