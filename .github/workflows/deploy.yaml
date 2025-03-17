@@ -23,11 +23,15 @@ jobs:
 
       - name: Gerar build da aplicação
         run: npm run build
+        env:
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
 
       - name: Preparar estrutura de arquivos
         run: |
-          mkdir -p .next/standalone/public
-          cp -r .next/static .next/standalone/
+          cp -r .next/static .next/standalone/.next/
           cp -r public .next/standalone/
 
       - name: Deploy para o Plesk via FTP

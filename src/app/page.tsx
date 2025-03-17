@@ -21,6 +21,42 @@ import ProjectExperience from "./components/project-experience";
 const Footer = dynamic(() => import("./components/footer"), { ssr: false });
 
 export default function Home() {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    const data = {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      subject: formData.get("subject"),
+      message: formData.get("message"),
+    };
+
+    console.log({ data }, "data");
+
+    if (!data.email || !data.message || !data.subject) return null;
+
+    try {
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        alert(result.message);
+      } else {
+        alert(result.message);
+      }
+    } catch (error) {
+      console.error("Erro ao enviar formulário:", error);
+      alert("Erro ao enviar formulário.");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[rgb(66,74,89)]">
       <header className="container mx-auto py-6 px-4 flex justify-between items-center">
@@ -135,15 +171,18 @@ export default function Home() {
 
           <div className="flex flex-col lg:flex-row gap-8 items-center">
             <div className="lg:w-2/5">
-              <div className="relative h-[500px]">
-                <div className="absolute -inset-4 w-[430px] h-[530px] bg-gradient-to-r from-sky-500 to-blue-500 rounded-xl opacity-30 blur-md"></div>
-                <div className="relative  w-[400px] h-[500px] aspect-square rounded-xl overflow-hidden border-2 border-white/10">
+              <div className="relative w-full max-w-sm">
+                {/* Glow effect */}
+                <div className="absolute -inset-2 w-full max-w-sm h-[530px] bg-gradient-to-r from-sky-500 to-blue-500 rounded-xl opacity-30 blur-md"></div>
+
+                {/* Imagem responsiva */}
+                <div className="relative w-full max-w-sm h-auto rounded-xl overflow-hidden border-2 border-white/10">
                   <Image
                     src="/perfil.jpeg"
                     alt="Desenvolvedor"
                     width={400}
                     height={500}
-                    className="h-full object-cover object-[50%_30%]"
+                    className="w-full h-auto object-cover object-[50%_30%]"
                   />
                 </div>
               </div>
@@ -420,7 +459,7 @@ export default function Home() {
                   <h3 className="text-xl font-bold text-white mb-6">
                     Envie uma mensagem
                   </h3>
-                  <form className="space-y-4">
+                  <form className="space-y-4" onSubmit={handleSubmit}>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <label htmlFor="name" className="text-white text-sm">
@@ -429,6 +468,7 @@ export default function Home() {
                         <input
                           type="text"
                           id="name"
+                          name="name"
                           className="w-full px-4 py-2 bg-[rgb(76,84,99)] border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-sky-500"
                           placeholder="Seu nome"
                         />
@@ -440,6 +480,7 @@ export default function Home() {
                         <input
                           type="email"
                           id="email"
+                          name="email"
                           className="w-full px-4 py-2 bg-[rgb(76,84,99)] border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-sky-500"
                           placeholder="seu@email.com"
                         />
@@ -453,6 +494,7 @@ export default function Home() {
                       <input
                         type="text"
                         id="subject"
+                        name="subject"
                         className="w-full px-4 py-2 bg-[rgb(76,84,99)] border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-sky-500"
                         placeholder="Assunto da mensagem"
                       />
@@ -464,13 +506,17 @@ export default function Home() {
                       </label>
                       <textarea
                         id="message"
+                        name="message"
                         rows={5}
                         className="w-full px-4 py-2 bg-[rgb(76,84,99)] border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-sky-500 resize-none"
                         placeholder="Sua mensagem aqui..."
                       ></textarea>
                     </div>
 
-                    <Button className="w-full bg-sky-500 hover:bg-sky-600 text-white">
+                    <Button
+                      type="submit"
+                      className="w-full bg-sky-500 hover:bg-sky-600 text-white"
+                    >
                       Enviar Mensagem
                     </Button>
                   </form>
