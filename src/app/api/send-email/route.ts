@@ -2,9 +2,9 @@ import nodemailer from 'nodemailer';
 
 export async function POST(req: Request) {
 
-    console.log("Variáveis de ambiente no servidor:");
-    console.log("SMTP_HOST:", process.env.SMTP_HOST);
-    console.log("SMTP_PORT:", process.env.SMTP_PORT);
+    console.error("Variáveis de ambiente no servidor:");
+    console.error("SMTP_HOST:", process.env.SMTP_HOST);
+    console.warn("SMTP_PORT:", process.env.SMTP_PORT);
     console.log("SMTP_USER:", process.env.SMTP_USER);
 
   try {

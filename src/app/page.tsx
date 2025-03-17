@@ -97,14 +97,14 @@ export default function Home() {
       >
         <div className="md:w-1/2 space-y-6">
           <Badge className="bg-sky-500/20 text-sky-400 hover:bg-sky-500/20 px-4 py-1 text-sm">
-            Desenvolvedor fullstack
+            Desenvolvedor Fullstack
           </Badge>
           <h1 className="text-4xl md:text-6xl font-bold text-white leading-tight">
             Transformando ideias em{" "}
             <span className="text-sky-400">experiências digitais</span>
           </h1>
           <p className="text-gray-300 text-lg md:text-xl max-w-md">
-            Desenvolvimento frontend de alta qualidade com foco em performance,
+            Desenvolvimento fullstack de alta qualidade com foco em performance,
             acessibilidade e design moderno.
           </p>
           <div className="flex space-x-4 pt-4">
