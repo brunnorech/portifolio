@@ -78,17 +78,15 @@ export default function Home() {
           />
         </div>
         <nav className="hidden md:flex space-x-6">
-          {["Início", "Sobre", "Habilidades", "Projetos", "Contato"].map(
-            (item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                className="text-white hover:text-sky-400 transition-colors"
-              >
-                {item}
-              </a>
-            )
-          )}
+          {["Início", "Sobre", "Habilidades", "Projetos"].map((item) => (
+            <a
+              key={item}
+              href={`#${item.toLowerCase()}`}
+              className="text-white hover:text-sky-400 transition-colors"
+            >
+              {item}
+            </a>
+          ))}
         </nav>
         <a href={"#contato"}>
           <Button className="bg-sky-500 hover:bg-sky-600 text-white">
@@ -102,9 +100,6 @@ export default function Home() {
         className="container mx-auto px-4 py-20 md:py-32 flex flex-col md:flex-row items-center"
       >
         <div className="md:w-1/2 space-y-6">
-          <Badge className="bg-sky-500/20 text-sky-400 hover:bg-sky-500/20 px-4 py-1 text-sm">
-            Desenvolvedor Fullstack
-          </Badge>
           <h1 className="text-4xl md:text-6xl font-bold text-white leading-tight">
             Transformando ideias em{" "}
             <span className="text-sky-400">experiências digitais</span>
@@ -147,7 +142,7 @@ export default function Home() {
                   "TypeScript",
                   "Tailwind",
                   "Node.js",
-                  "UI/UX",
+                  "AWS",
                 ].map((tech) => (
                   <Badge
                     key={tech}
@@ -443,9 +438,7 @@ export default function Home() {
                     </div>
                     <div>
                       <h4 className="text-white font-medium">LinkedIn</h4>
-                      <p className="text-gray-300">
-                        linkedin.com/in/bruno-rech-70291492
-                      </p>
+                      <p className="text-gray-300">Bruno Rech</p>
                     </div>
                   </div>
                 </a>
@@ -461,7 +454,7 @@ export default function Home() {
                     </div>
                     <div>
                       <h4 className="text-white font-medium">GitHub</h4>
-                      <p className="text-gray-300">github.com/brunnorech</p>
+                      <p className="text-gray-300">brunnorech</p>
                     </div>
                   </div>
                 </a>
