@@ -59,8 +59,11 @@ jobs:
       - name: Criar pasta tmp
         run: mkdir -p ./tmp
 
+      - name: Navegar ate a tmp
+        run: cd /tmp
+
       - name: Criar restart.txt
-        run: echo "" > ./tmp/restart.txt
+        run: echo "" > restart.txt
 
       - name: Deploy restart.txt para a pasta /tmp via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
