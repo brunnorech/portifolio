@@ -59,8 +59,8 @@ jobs:
       - name: Criar pasta tmp
         run: mkdir -p ./tmp
 
-      - name: Criar restart.txt
-        run: echo "restart" > ./tmp/restart.txt
+      - name: Criar restart.txt com timestamp
+        run: echo "Restart at $(date)" > ./tmp/restart.txt
 
       - name: Deploy restart.txt para a pasta /tmp via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
