@@ -19,9 +19,12 @@ import {
 
 import dynamic from "next/dynamic";
 import ProjectExperience from "./components/project-experience";
+import { useRef } from "react";
 const Footer = dynamic(() => import("./components/footer"), { ssr: false });
 
 export default function Home() {
+  const formRef = useRef<HTMLFormElement>(null);
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -48,7 +51,7 @@ export default function Home() {
       await response.json();
 
       if (response.ok) {
-        event.currentTarget.reset();
+        formRef.current?.reset();
         toast.success("E-mail enviado com sucesso!", {
           description: "A brech.dev te retornara em breve.",
         });
@@ -474,7 +477,11 @@ export default function Home() {
                   <h3 className="text-xl font-bold text-white mb-6">
                     Envie uma mensagem
                   </h3>
-                  <form className="space-y-4" onSubmit={handleSubmit}>
+                  <form
+                    ref={formRef}
+                    className="space-y-4"
+                    onSubmit={handleSubmit}
+                  >
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <label htmlFor="name" className="text-white text-sm">
