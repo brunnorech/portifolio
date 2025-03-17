@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Button } from "../components/ui/button";
 import { Card, CardContent } from "../components/ui/card";
+import { toast } from "../components/ui/sonner";
 import { Badge } from "../components/ui/badge";
 import {
   Code2,
@@ -32,9 +33,8 @@ export default function Home() {
       message: formData.get("message"),
     };
 
-    console.log({ data }, "data");
-
-    if (!data.email || !data.message || !data.subject) return null;
+    if (!data.email || !data.message || !data.subject)
+      return toast.warning("Preencha todos os campos.");
 
     try {
       const response = await fetch("/api/send-email", {
@@ -45,16 +45,23 @@ export default function Home() {
         body: JSON.stringify(data),
       });
 
-      const result = await response.json();
-      console.log({ result, json: JSON.stringify(result) }, "sadf");
+      await response.json();
+
       if (response.ok) {
-        alert(result.message);
+        event.currentTarget.reset();
+        toast.success("E-mail enviado com sucesso!", {
+          description: "A brech.dev te retornara em breve.",
+        });
       } else {
-        alert(result.message);
+        toast.error("Falha ao enviar e-mail!", {
+          description: "Tente novamente mais tarde.",
+        });
       }
     } catch (error) {
-      console.error("Erro ao enviar formulário:", error);
-      alert("Erro ao enviar formulário." + JSON.stringify(error));
+      console.error(error);
+      toast.error("Falha ao enviar e-mail!", {
+        description: "Tente novamente mais tarde.",
+      });
     }
   };
 
@@ -90,7 +97,6 @@ export default function Home() {
         </a>
       </header>
 
-      {/* Hero Section */}
       <section
         id="início"
         className="container mx-auto px-4 py-20 md:py-32 flex flex-col md:flex-row items-center"
@@ -157,7 +163,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About Section */}
       <section id="sobre" className="bg-[rgb(56,64,79)] py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
@@ -310,7 +315,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Projects Section */}
       <section id="projetos" className="py-20 bg-[rgb(56,64,79)]">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
@@ -330,7 +334,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
       <section className="py-20 bg-[rgb(66,74,89)]">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
@@ -403,7 +406,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Contact Section */}
       <section id="contato" className="py-20 bg-[rgb(56,64,79)]">
         <div className="container mx-auto px-4">
           <div className="flex flex-col lg:flex-row gap-12">
@@ -430,27 +432,39 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="flex items-center space-x-4">
-                  <div className="bg-sky-500/20 p-3 rounded-full">
-                    <Linkedin className="h-5 w-5 text-sky-400" />
+                <a
+                  className="flex mt-4"
+                  href="https://www.linkedin.com/in/bruno-rech-70291492/"
+                  target="__blank"
+                >
+                  <div className="flex items-center space-x-4">
+                    <div className="bg-sky-500/20 p-3 rounded-full">
+                      <Linkedin className="h-5 w-5 text-sky-400" />
+                    </div>
+                    <div>
+                      <h4 className="text-white font-medium">LinkedIn</h4>
+                      <p className="text-gray-300">
+                        linkedin.com/in/bruno-rech-70291492
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="text-white font-medium">LinkedIn</h4>
-                    <p className="text-gray-300">
-                      linkedin.com/in/bruno-rech-70291492
-                    </p>
-                  </div>
-                </div>
+                </a>
 
-                <div className="flex items-center space-x-4">
-                  <div className="bg-sky-500/20 p-3 rounded-full">
-                    <Github className="h-5 w-5 text-sky-400" />
+                <a
+                  className="flex mt-4"
+                  href="https://github.com/brunnorech"
+                  target="__blank"
+                >
+                  <div className="flex items-center space-x-4">
+                    <div className="bg-sky-500/20 p-3 rounded-full">
+                      <Github className="h-5 w-5 text-sky-400" />
+                    </div>
+                    <div>
+                      <h4 className="text-white font-medium">GitHub</h4>
+                      <p className="text-gray-300">github.com/brunnorech</p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="text-white font-medium">GitHub</h4>
-                    <p className="text-gray-300">github.com/brunnorech</p>
-                  </div>
-                </div>
+                </a>
               </div>
             </div>
 
@@ -528,7 +542,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="bg-[rgb(46,54,69)] py-12">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
@@ -541,7 +554,7 @@ export default function Home() {
                 className="h-auto"
               />
               <p className="text-gray-400 mt-2 max-w-xs">
-                Desenvolvimento frontend de alta qualidade para empresas e
+                Desenvolvimento fullstack de alta qualidade para empresas e
                 startups.
               </p>
             </div>
