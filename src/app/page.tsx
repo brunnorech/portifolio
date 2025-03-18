@@ -20,6 +20,7 @@ import {
 import dynamic from "next/dynamic";
 import ProjectExperience from "./components/project-experience";
 import { useRef } from "react";
+import Chatbot from "./components/chat-bot";
 const Footer = dynamic(() => import("./components/footer"), { ssr: false });
 
 export default function Home() {
@@ -632,6 +633,7 @@ export default function Home() {
           </div>
 
           <Footer />
+          <Chatbot />
         </div>
       </footer>
     </div>
