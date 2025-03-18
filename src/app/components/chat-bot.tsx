@@ -36,6 +36,38 @@ export default function ChatInterface() {
     setIsOpen(!isOpen);
   };
 
+  const sendMessageToApi = async (message: string) => {
+    if (!message) return null;
+
+    try {
+      const response = await fetch("/api/chatbot", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ question: message }),
+      });
+
+      const responseMessage = await response.json();
+
+      console.log({ responseMessage });
+
+      if (responseMessage.answer) {
+        const newBotMessage: Message = {
+          id: Date.now().toString(),
+          content: responseMessage?.answer,
+          sender: "bot",
+          timestamp: new Date(),
+          read: true,
+        };
+
+        setMessages((prev) => [...prev, newBotMessage]);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleSendMessage = () => {
     if (inputValue.trim() === "") return;
 
@@ -44,23 +76,12 @@ export default function ChatInterface() {
       content: inputValue,
       sender: "user",
       timestamp: new Date(),
-      read: false,
+      read: true,
     };
 
     setMessages((prev) => [...prev, newUserMessage]);
     setInputValue("");
-
-    setTimeout(() => {
-      const botResponse: Message = {
-        id: (Date.now() + 1).toString(),
-        content:
-          "Obrigado pela sua mensagem! Estou aqui para ajudar com qualquer dúvida que você tenha.",
-        sender: "bot",
-        timestamp: new Date(),
-        read: false,
-      };
-      setMessages((prev) => [...prev, botResponse]);
-    }, 1000);
+    sendMessageToApi(newUserMessage.content);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -190,7 +211,7 @@ export default function ChatInterface() {
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Digite sua mensagem aqui..."
-            className="flex-1 bg-gray-100 border-0"
+            className="flex-1 bg-gray-100 border-0 text-black"
           />
           <Button
             onClick={handleSendMessage}

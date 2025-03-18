@@ -46,14 +46,29 @@ const DEFAULT_PROMPT = `
 
     lembrete: nao responda nada pertinente a outros assuntos, diga que nao pode responder e se a pessoa gostaria de 
     saber algo sobre mim ou minha empresa, caso lhe for perguntado algo que foge do contexto passado acima.
+
+    aceite perguntas como:
+      quem é voce?
+      quem é bruno rech?
+      gostaria de saber sobre a brech.dev
+      quais suas habilidades
+
+    se a pergunta tem o nome bruno rech e é pertinente ao curriculo dele, responda a pergunta, de respostas
+    curtas e diretas com sutileza, apenas responda respostas mais longas se for pedido no prompt do usuario.
 `
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    const { question } = body;
+    const body = await req.json(); 
+    const question = body.question;
+    
     const apiKey = process.env.GEMINI_API_KEY;
 
+    if (!question) {
+        return NextResponse.json({ error: 'Pergunta nao enviada.' }, { status: 500 });
+      }
+
+      
     if (!apiKey) {
       return NextResponse.json({ error: 'Chave de API não configurada.' }, { status: 500 });
     }
