@@ -19,6 +19,7 @@ interface Message {
 
 export default function ChatInterface() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
@@ -40,7 +41,8 @@ export default function ChatInterface() {
     if (!message) return null;
 
     try {
-      const response = await fetch("/api/chatbot", {
+      setIsLoading(true);
+      const response = await fetch("/api/chat-bot", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -60,10 +62,11 @@ export default function ChatInterface() {
           timestamp: new Date(),
           read: true,
         };
-
+        setIsLoading(false);
         setMessages((prev) => [...prev, newBotMessage]);
       }
     } catch (error) {
+      setIsLoading(false);
       console.error(error);
     }
   };
@@ -98,6 +101,20 @@ export default function ChatInterface() {
   // Format time as HH:MM
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  };
+
+  const handleSendMessageButton = (messageButton: string) => {
+    const newUserMessage: Message = {
+      id: Date.now().toString(),
+      content: messageButton,
+      sender: "user",
+      timestamp: new Date(),
+      read: true,
+    };
+
+    setMessages((prev) => [...prev, newUserMessage]);
+    setInputValue("");
+    sendMessageToApi(newUserMessage.content);
   };
 
   return (
@@ -191,16 +208,47 @@ export default function ChatInterface() {
           ))}
           <div ref={messagesEndRef} />
         </div>
-
+        {isLoading && (
+          <div className="w-full bg-gray-50">
+            <div className="relative w-[120px] mb-2 h-6 text-[#009CE0] rounded-full flex items-center justify-center">
+              {/* Bolinhas do Loader */}
+              {/* <div className="flex gap-[6px]">
+                <span className="w-1.5 h-1.5 bg-white rounded-full animate-dots [animation-delay:-0.2s]"></span>
+                <span className="w-1.5 h-1.5 bg-white rounded-full animate-dots"></span>
+                <span className="w-1.5 h-1.5 bg-white rounded-full animate-dots [animation-delay:0.2s]"></span>
+              </div> */}
+              <span>pensando...</span>
+            </div>
+          </div>
+        )}
         {/* Quick action buttons */}
         <div className="flex justify-around p-2 border-t border-gray-200">
-          <Button variant="outline" size="sm" className="text-gray-600 text-xs">
+          <Button
+            variant="outline"
+            size="sm"
+            className="text-gray-600 text-xs"
+            onClick={() => handleSendMessageButton("Quem é bruno rech?")}
+          >
             Quem é Bruno Rech?
           </Button>
-          <Button variant="outline" size="sm" className="text-gray-600 text-xs">
+          <Button
+            variant="outline"
+            size="sm"
+            className="text-gray-600 text-xs"
+            onClick={() =>
+              handleSendMessageButton("Habilidades de bruno rech?")
+            }
+          >
             Habilidades
           </Button>
-          <Button variant="outline" size="sm" className="text-gray-600 text-xs">
+          <Button
+            variant="outline"
+            size="sm"
+            className="text-gray-600 text-xs"
+            onClick={() =>
+              handleSendMessageButton("Ultimo projeto de bruno rech?")
+            }
+          >
             Projetos
           </Button>
         </div>

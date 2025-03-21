@@ -20,8 +20,8 @@ import {
 import dynamic from "next/dynamic";
 import ProjectExperience from "./components/project-experience";
 import { useRef } from "react";
-import Chatbot from "./components/chat-bot";
 const Footer = dynamic(() => import("./components/footer"), { ssr: false });
+const Chatbot = dynamic(() => import("./components/chat-bot"), { ssr: false });
 
 export default function Home() {
   const formRef = useRef<HTMLFormElement>(null);
