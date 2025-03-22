@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { v4 as uuidv4 } from "uuid";
 
 //
 // nao responda nada alem disso, apenas duvidas pertinentes a ele (carreira) ou a empresa
@@ -62,12 +64,7 @@ const DEFAULT_PROMPT = `
     se a pergunta envolver 2 amigos do bruno rech, e for de cunho gay, diga aleatoriamente um para ser o mais gay.
     `;
 
-const history: { role: "user" | "assistant" | "default"; content: string }[] = [
-  {
-    role: "default",
-    content: `prompt padrao: ${DEFAULT_PROMPT}`,
-  },
-];
+const userHistories = new Map(); 
 
 export async function POST(req: NextRequest) {
   try {
@@ -90,27 +87,33 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    let sessionId = (await cookies()).get("sessionId")?.value;
+    if (!sessionId) {
+      sessionId = uuidv4();
+      (await cookies()).set("sessionId", sessionId, { httpOnly: true, secure: true });
+    }
+
+    if (!userHistories.has(sessionId)) {
+      userHistories.set(sessionId, []);
+    }
+
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
 
-    // Adicionar a nova pergunta ao histórico
+    const history = userHistories.get(sessionId);
     history.push({ role: "user", content: question });
 
-    // Manter apenas as últimas 10 interações
     if (history.length > 20) {
       history.splice(0, history.length - 20);
     }
 
-    // Criar um prompt formatado com o histórico
-    const chatHistory = history
-      .map((msg) => `${msg.role}: ${msg.content}`)
-      .join("\n");
-    const prompt = `Aqui está a conversa até agora:\n${chatHistory}\n\nAgora, responda à última pergunta do usuário de forma coerente com o contexto.`;
+    const chatHistory = history.map((msg: { role?: string; content: string;}) => `${msg.role}: ${msg.content}`).join("\n");
+
+    const prompt = `${DEFAULT_PROMPT} Aqui está a conversa até agora:\n${chatHistory}\n\nAgora, responda à última pergunta do usuário de forma coerente com o contexto.`;
 
     const result = await model.generateContent(prompt);
     const text = await result.response.text();
 
-    // Adicionar a resposta do assistente ao histórico
     history.push({ role: "assistant", content: text });
 
     return NextResponse.json({ answer: text });
