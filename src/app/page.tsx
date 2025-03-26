@@ -354,24 +354,26 @@ export default function Home() {
         </section>
       </FadeContent>
 
-      <section id="projetos" className="py-20 bg-[rgb(56,64,79)]">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <Badge className="bg-sky-500/20 text-sky-400 hover:bg-sky-500/20 px-4 py-1 text-sm mb-4">
-              Projetos
-            </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold text-white">
-              Meus <span className="text-sky-400">Trabalhos Recentes</span>
-            </h2>
-            <p className="text-gray-300 mt-4 max-w-2xl mx-auto">
-              Uma seleção dos melhores projetos que demonstram minhas
-              habilidades e experiência
-            </p>
-          </div>
+      <FadeContent duration={1000} easing="ease-out" initialOpacity={0.5}>
+        <section id="projetos" className="py-20 bg-[rgb(56,64,79)]">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+              <Badge className="bg-sky-500/20 text-sky-400 hover:bg-sky-500/20 px-4 py-1 text-sm mb-4">
+                Projetos
+              </Badge>
+              <h2 className="text-3xl md:text-4xl font-bold text-white">
+                Meus <span className="text-sky-400">Trabalhos Recentes</span>
+              </h2>
+              <p className="text-gray-300 mt-4 max-w-2xl mx-auto">
+                Uma seleção dos melhores projetos que demonstram minhas
+                habilidades e experiência
+              </p>
+            </div>
 
-          <ProjectExperience />
-        </div>
-      </section>
+            <ProjectExperience />
+          </div>
+        </section>
+      </FadeContent>
 
       <FadeContent blur duration={1000} easing="ease-out" initialOpacity={0.5}>
         <section className="py-20 bg-[rgb(66,74,89)]">
