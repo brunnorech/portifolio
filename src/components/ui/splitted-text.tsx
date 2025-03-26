@@ -21,6 +21,7 @@ interface SplitTextProps {
   rootMargin?: string;
   textAlign?: "left" | "right" | "center" | "justify" | "initial" | "inherit";
   onLetterAnimationComplete?: () => void;
+  isExiting?: boolean;
 }
 
 const SplitText: React.FC<SplitTextProps> = ({
@@ -34,6 +35,7 @@ const SplitText: React.FC<SplitTextProps> = ({
   rootMargin = "-100px",
   textAlign = "center",
   onLetterAnimationComplete,
+  isExiting = false,
 }) => {
   const words = text.split(" ").map((word) => word.split(""));
   const letters = words.flat();
@@ -65,7 +67,9 @@ const SplitText: React.FC<SplitTextProps> = ({
     letters.length,
     letters.map((_, i) => ({
       from: animationFrom,
-      to: inView
+      to: isExiting
+        ? { ...animationFrom, config: { duration: 300 } }
+        : inView
         ? async (next: (props: any) => Promise<void>) => {
             await next(animationTo);
             animatedCount.current += 1;
@@ -77,7 +81,7 @@ const SplitText: React.FC<SplitTextProps> = ({
             }
           }
         : animationFrom,
-      delay: i * delay,
+      delay: isExiting ? (letters.length - i - 1) * 30 : i * delay,
       config: { easing },
     }))
   );

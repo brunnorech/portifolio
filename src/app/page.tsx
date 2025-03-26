@@ -19,30 +19,46 @@ import {
 
 import dynamic from "next/dynamic";
 import ProjectExperience from "./components/project-experience";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SplitText from "../components/ui/splitted-text";
 import FadeContent from "../components/ui/fade-content";
+import TicTacToe from "./components/tic-tac-toe";
 const Footer = dynamic(() => import("./components/footer"), { ssr: false });
 const Chatbot = dynamic(() => import("./components/chat-bot"), { ssr: false });
 
 export default function Home() {
   const formRef = useRef<HTMLFormElement>(null);
   const [showtextExperience, setShowtextExperience] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isExiting, setIsExiting] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const formData = new FormData(event.currentTarget);
-    const data = {
+    const formData = getFormData(event.currentTarget);
+
+    if (!isValidFormData(formData)) {
+      return toast.warning("Preencha todos os campos.");
+    }
+
+    await sendEmail(formData);
+  };
+
+  const getFormData = (form: HTMLFormElement) => {
+    const formData = new FormData(form);
+    return {
       name: formData.get("name"),
       email: formData.get("email"),
       subject: formData.get("subject"),
       message: formData.get("message"),
     };
+  };
 
-    if (!data.email || !data.message || !data.subject)
-      return toast.warning("Preencha todos os campos.");
+  const isValidFormData = (data: Record<string, FormDataEntryValue | null>) => {
+    return Boolean(data.email && data.message && data.subject);
+  };
 
+  const sendEmail = async (data: Record<string, FormDataEntryValue | null>) => {
     try {
       const response = await fetch("/api/send-email", {
         method: "POST",
@@ -55,22 +71,53 @@ export default function Home() {
       await response.json();
 
       if (response.ok) {
-        formRef.current?.reset();
-        toast.success("E-mail enviado com sucesso!", {
-          description: "A brech.dev te retornara em breve.",
-        });
+        handleSuccess();
       } else {
-        toast.error("Falha ao enviar e-mail!", {
-          description: "Tente novamente mais tarde.",
-        });
+        handleError();
       }
     } catch (error) {
       console.error(error);
-      toast.error("Falha ao enviar e-mail!", {
-        description: "Tente novamente mais tarde.",
-      });
+      handleError();
     }
   };
+
+  const handleSuccess = () => {
+    formRef.current?.reset();
+    toast.success("E-mail enviado com sucesso!", {
+      description: "A brech.dev te retornara em breve.",
+    });
+  };
+
+  const handleError = () => {
+    toast.error("Falha ao enviar e-mail!", {
+      description: "Tente novamente mais tarde.",
+    });
+  };
+
+  const keywords = [
+    "experiências digitais",
+    "produtos inovadores",
+    "soluções ágeis",
+    "sistemas modernos",
+    "responsividade",
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsExiting(true);
+
+      setTimeout(() => {
+        setCurrentIndex((current) => (current + 1) % keywords.length);
+
+        setTimeout(() => {
+          setIsExiting(false);
+          setShowtextExperience(true);
+        }, 200);
+      }, 1000);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="min-h-screen bg-[rgb(66,74,89)]">
@@ -110,25 +157,25 @@ export default function Home() {
           <SplitText
             text="Transformando ideias em"
             className="text-4xl md:text-6xl font-bold text-white"
-            delay={50}
             animationFrom={{ opacity: 0, transform: "translate3d(0,50px,0)" }}
             animationTo={{ opacity: 1, transform: "translate3d(0,0,0)" }}
             threshold={0.2}
+            delay={50}
             rootMargin="-50px"
             onLetterAnimationComplete={() => setShowtextExperience(true)}
           />
           {showtextExperience && (
             <SplitText
-              text="experiências digitais"
-              className="text-4xl md:text-6xl text- text-sky-400 font-bold"
-              delay={0}
+              text={keywords[currentIndex]}
+              className="text-4xl md:text-6xl text-sky-400 font-bold transition-opacity duration-500"
               animationFrom={{
                 opacity: 0,
                 transform: "translate3d(0,50px,0)",
               }}
               animationTo={{ opacity: 1, transform: "translate3d(0,0,0)" }}
               threshold={0.2}
-              rootMargin=""
+              delay={0}
+              isExiting={isExiting}
             />
           )}
           <FadeContent duration={1000} easing="ease-out" initialOpacity={0.5}>
@@ -204,10 +251,8 @@ export default function Home() {
             <div className="flex flex-col lg:flex-row gap-8 items-center">
               <div className="lg:w-2/5">
                 <div className="relative w-full max-w-sm">
-                  {/* Glow effect */}
                   <div className="absolute -inset-2 w-full max-w-sm h-[530px] bg-gradient-to-r from-sky-500 to-blue-500 rounded-xl opacity-30 blur-md"></div>
 
-                  {/* Imagem responsiva */}
                   <div className="relative w-full max-w-sm h-auto rounded-xl overflow-hidden border-2 border-white/10">
                     <Image
                       src="/perfil.jpeg"
@@ -295,7 +340,7 @@ export default function Home() {
 
       <FadeContent
         blur
-        duration={1000}
+        duration={500}
         easing="ease-in-out"
         initialOpacity={0.5}
       >
@@ -354,7 +399,7 @@ export default function Home() {
         </section>
       </FadeContent>
 
-      <FadeContent duration={1000} easing="ease-out" initialOpacity={0.5}>
+      <FadeContent blur duration={500} easing="ease-out" initialOpacity={0.5}>
         <section id="projetos" className="py-20 bg-[rgb(56,64,79)]">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
@@ -375,7 +420,7 @@ export default function Home() {
         </section>
       </FadeContent>
 
-      <FadeContent blur duration={1000} easing="ease-out" initialOpacity={0.5}>
+      <FadeContent blur duration={500} easing="ease-out" initialOpacity={0.5}>
         <section className="py-20 bg-[rgb(66,74,89)]">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
@@ -449,7 +494,7 @@ export default function Home() {
         </section>
       </FadeContent>
 
-      <FadeContent blur duration={1000} easing="ease-out" initialOpacity={0.5}>
+      <FadeContent blur duration={500} easing="ease-out" initialOpacity={0.5}>
         <section id="contato" className="py-20 bg-[rgb(56,64,79)]">
           <div className="container mx-auto px-4">
             <div className="flex flex-col lg:flex-row gap-12">
@@ -673,6 +718,7 @@ export default function Home() {
 
           <Footer />
           <Chatbot />
+          <TicTacToe />
         </div>
       </footer>
     </div>
