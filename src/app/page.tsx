@@ -19,7 +19,7 @@ import {
 
 import dynamic from "next/dynamic";
 import ProjectExperience from "./components/project-experience";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import SplitText from "../components/ui/splitted-text";
 import FadeContent from "../components/ui/fade-content";
 const Footer = dynamic(() => import("./components/footer"), { ssr: false });
@@ -27,6 +27,7 @@ const Chatbot = dynamic(() => import("./components/chat-bot"), { ssr: false });
 
 export default function Home() {
   const formRef = useRef<HTMLFormElement>(null);
+  const [showtextExperience, setShowtextExperience] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -107,26 +108,29 @@ export default function Home() {
       >
         <div className="md:w-1/2 space-y-6">
           <SplitText
-            text="Transformando ideias em "
+            text="Transformando ideias em"
             className="text-4xl md:text-6xl font-bold text-white"
             delay={50}
             animationFrom={{ opacity: 0, transform: "translate3d(0,50px,0)" }}
             animationTo={{ opacity: 1, transform: "translate3d(0,0,0)" }}
             threshold={0.2}
             rootMargin="-50px"
+            onLetterAnimationComplete={() => setShowtextExperience(true)}
           />
-          <SplitText
-            text="experiências digitais"
-            className="text-4xl md:text-5xl text- text-sky-400 font-bold"
-            delay={50}
-            animationFrom={{
-              opacity: 0,
-              transform: "translate3d(0,50px,0)",
-            }}
-            animationTo={{ opacity: 1, transform: "translate3d(0,0,0)" }}
-            threshold={0.2}
-            rootMargin=""
-          />
+          {showtextExperience && (
+            <SplitText
+              text="experiências digitais"
+              className="text-4xl md:text-6xl text- text-sky-400 font-bold"
+              delay={0}
+              animationFrom={{
+                opacity: 0,
+                transform: "translate3d(0,50px,0)",
+              }}
+              animationTo={{ opacity: 1, transform: "translate3d(0,0,0)" }}
+              threshold={0.2}
+              rootMargin=""
+            />
+          )}
           <FadeContent duration={1000} easing="ease-out" initialOpacity={0.5}>
             <p className="text-gray-300 text-lg md:text-xl max-w-md">
               Desenvolvimento fullstack de alta qualidade com foco em
@@ -184,7 +188,7 @@ export default function Home() {
         </div>
       </section>
 
-      <FadeContent duration={1000} easing="ease-out" initialOpacity={0.5}>
+      <FadeContent blur duration={1000} easing="ease-out" initialOpacity={0.5}>
         <section id="sobre" className="bg-[rgb(56,64,79)] py-20">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
@@ -289,7 +293,12 @@ export default function Home() {
         </section>
       </FadeContent>
 
-      <FadeContent duration={500} easing="ease-in-out" initialOpacity={0.5}>
+      <FadeContent
+        blur
+        duration={1000}
+        easing="ease-in-out"
+        initialOpacity={0.5}
+      >
         <section id="habilidades" className="py-20 bg-[rgb(66,74,89)]">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
@@ -364,7 +373,7 @@ export default function Home() {
         </div>
       </section>
 
-      <FadeContent duration={1000} easing="ease-out" initialOpacity={0.5}>
+      <FadeContent blur duration={1000} easing="ease-out" initialOpacity={0.5}>
         <section className="py-20 bg-[rgb(66,74,89)]">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
@@ -438,7 +447,7 @@ export default function Home() {
         </section>
       </FadeContent>
 
-      <FadeContent duration={1000} easing="ease-out" initialOpacity={0.5}>
+      <FadeContent blur duration={1000} easing="ease-out" initialOpacity={0.5}>
         <section id="contato" className="py-20 bg-[rgb(56,64,79)]">
           <div className="container mx-auto px-4">
             <div className="flex flex-col lg:flex-row gap-12">

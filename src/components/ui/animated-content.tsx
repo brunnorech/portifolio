@@ -1,5 +1,21 @@
 import { useRef, useEffect, useState, ReactNode } from "react";
-import { useSpring, animated, SpringConfig } from "@react-spring/web";
+import {
+  useSpring,
+  animated,
+  SpringConfig,
+  SpringValue,
+} from "@react-spring/web";
+
+type AnimatedDivProps = {
+  children: ReactNode;
+  style: {
+    transform: SpringValue<string>;
+    opacity: SpringValue<number>;
+  };
+  ref?: React.RefObject<HTMLDivElement | null>;
+};
+
+const AnimatedDiv = animated.div as React.FC<AnimatedDivProps>;
 
 interface AnimatedContentProps {
   children: ReactNode;
@@ -72,9 +88,9 @@ const AnimatedContent: React.FC<AnimatedContentProps> = ({
   });
 
   return (
-    <animated.div ref={ref} style={springProps}>
+    <AnimatedDiv ref={ref} style={springProps}>
       {children}
-    </animated.div>
+    </AnimatedDiv>
   );
 };
 

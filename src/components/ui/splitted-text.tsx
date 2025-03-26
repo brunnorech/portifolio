@@ -1,5 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useSprings, animated } from "@react-spring/web";
 import { useEffect, useRef, useState } from "react";
+
+type AnimatedSpanProps = {
+  children: React.ReactNode;
+  style: any;
+  key?: number;
+};
+
+const AnimatedSpan = animated.span as React.FC<AnimatedSpanProps>;
 
 interface SplitTextProps {
   text?: string;
@@ -96,7 +105,7 @@ const SplitText: React.FC<SplitTextProps> = ({
               letterIndex;
 
             return (
-              <animated.span
+              <AnimatedSpan
                 key={index}
                 style={{
                   ...springs[index],
@@ -105,7 +114,7 @@ const SplitText: React.FC<SplitTextProps> = ({
                 }}
               >
                 {letter}
-              </animated.span>
+              </AnimatedSpan>
             );
           })}
           <span style={{ display: "inline-block", width: "0.3em" }}>
