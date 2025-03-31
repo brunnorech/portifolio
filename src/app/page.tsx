@@ -718,7 +718,7 @@ export default function Home() {
 
           <Footer />
           <Chatbot />
-          <TicTacToe />
+          {/* <TicTacToe /> */}
         </div>
       </footer>
     </div>
