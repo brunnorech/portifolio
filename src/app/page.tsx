@@ -22,7 +22,6 @@ import ProjectExperience from "./components/project-experience";
 import { useEffect, useRef, useState } from "react";
 import SplitText from "../components/ui/splitted-text";
 import FadeContent from "../components/ui/fade-content";
-import TicTacToe from "./components/tic-tac-toe";
 const Footer = dynamic(() => import("./components/footer"), { ssr: false });
 const Chatbot = dynamic(() => import("./components/chat-bot"), { ssr: false });
 
