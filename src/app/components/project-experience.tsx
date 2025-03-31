@@ -1,75 +1,112 @@
 import { Badge } from "../../components/ui/badge";
 import { Card, CardContent } from "../../components/ui/card";
 
-export default function ProjectExperience() {
-  const experiences = [
-    {
-      company: "Renner SA",
-      position: "Desenvolvedor Front-end",
-      period: "abril 2023 — fevereiro 2025",
-      location: "Remoto",
-      description:
-        "Desenvolvimento do app e site do cliente Renner S/A, utilizando React, React Native e TypeScript. Implementação de testes unitários, Storybook e integrações com API Rest e GraphQL. Aplicação de patterns como Compound Components, Providers e HOC.",
-      tags: [
-        "React",
-        "React Native",
-        "TypeScript",
-        "Unit Tests",
-        "Storybook",
-        "REST API",
-        "GraphQL",
-      ],
-      url: "#",
-    },
-    {
-      company: "Nova Tendência",
-      position: "Desenvolvedor Front-end",
-      period: "novembro 2022 — março 2023",
-      location: "Remoto",
-      description:
-        "Desenvolvimento de aplicações web responsivas utilizando React, TypeScript e Styled-Components.",
-      tags: ["React", "TypeScript", "Styled-Components", "Responsive Design"],
-    },
-    {
-      company: "Deliver IT",
-      position: "Desenvolvedor Front-end",
-      period: "abril 2022 — novembro 2022",
-      location: "Remoto",
-      description:
-        "Desenvolvimento de soluções bancárias para o cliente utilizando NextJS com TypeScript e Styled Components seguindo a metodologia ágil Scrum.",
-      tags: [
-        "Next.js",
-        "TypeScript",
-        "Styled-Components",
-        "Scrum",
-        "Banking Solutions",
-      ],
-    },
-    {
-      company: "KapMug",
-      position: "Desenvolvedor Front-end",
-      period: "abril 2019 — abril 2022",
-      location: "São Paulo",
-      description:
-        "Desenvolvimento de aplicações utilizando JavaScript (ReactJS, React Native, Node.js, Ramda) e MongoDB. Experiência em testes E2E com Detox em projetos React Native. Implementação de APIs com GraphQL e REST. Publicação de aplicativos nas lojas App Store e Google Play.",
-      tags: [
-        "React",
-        "React Native",
-        "Node.js",
-        "MongoDB",
-        "GraphQL",
-        "REST API",
-        "Detox",
-        "App Store",
-        "Google Play",
-      ],
-    },
-  ];
+const MOCK_PROJECTS = [
+  {
+    company: "Renner SA",
+    position: "Desenvolvedor Front-end",
+    period: "abril 2023 — fevereiro 2025",
+    location: "Remoto",
+    description:
+      "Desenvolvimento do app e site do cliente Renner S/A, utilizando React, React Native e TypeScript. Implementação de testes unitários, Storybook e integrações com API Rest e GraphQL. Aplicação de patterns como Compound Components, Providers e HOC.",
+    tags: [
+      "React",
+      "React Native",
+      "TypeScript",
+      "Unit Tests",
+      "Storybook",
+      "REST API",
+      "GraphQL",
+    ],
+    url: "#",
+  },
+  {
+    company: "Nova Tendência",
+    position: "Desenvolvedor Front-end",
+    period: "novembro 2022 — março 2023",
+    location: "Remoto",
+    description:
+      "Desenvolvimento de aplicações web responsivas utilizando React, TypeScript e Styled-Components.",
+    tags: ["React", "TypeScript", "Styled-Components", "Responsive Design"],
+  },
+  {
+    company: "Deliver IT",
+    position: "Desenvolvedor Front-end",
+    period: "abril 2022 — novembro 2022",
+    location: "Remoto",
+    description:
+      "Desenvolvimento de soluções bancárias para o cliente utilizando NextJS com TypeScript e Styled Components seguindo a metodologia ágil Scrum.",
+    tags: [
+      "Next.js",
+      "TypeScript",
+      "Styled-Components",
+      "Scrum",
+      "Banking Solutions",
+    ],
+  },
+  {
+    company: "KapMug",
+    position: "Desenvolvedor Front-end",
+    period: "abril 2019 — abril 2022",
+    location: "São Paulo",
+    description:
+      "Desenvolvimento de aplicações utilizando JavaScript (ReactJS, React Native, Node.js, Ramda) e MongoDB. Experiência em testes E2E com Detox em projetos React Native. Implementação de APIs com GraphQL e REST. Publicação de aplicativos nas lojas App Store e Google Play.",
+    tags: [
+      "React",
+      "React Native",
+      "Node.js",
+      "MongoDB",
+      "GraphQL",
+      "REST API",
+      "Detox",
+      "App Store",
+      "Google Play",
+    ],
+  },
+];
 
+const ProjectExperienceGhibli = () => {
+  return (
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {MOCK_PROJECTS.map((project, index) => (
+        <Card
+          key={index}
+          className="overflow-hidden border-none shadow-lg bg-opacity-80 backdrop-blur-sm bg-[#f0e9d2] hover:shadow-xl transition-all duration-300 group"
+        >
+          <CardContent className="p-6">
+            <h3 className="text-[#1d3557] font-semibold text-xl mb-2">
+              {project.company}
+            </h3>
+            <p className="text-[#457b9d] mb-4">{project.description}</p>
+            <div className="flex flex-wrap gap-2">
+              {project.tags.map((tag, tagIndex) => (
+                <Badge
+                  key={tagIndex}
+                  className="bg-[#a8dadc] text-[#1d3557] hover:bg-[#a8dadc]/80"
+                >
+                  {tag}
+                </Badge>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+};
+
+export default function ProjectExperience({
+  isGhibli,
+}: {
+  isGhibli?: boolean;
+}) {
+  if (isGhibli) {
+    return <ProjectExperienceGhibli />;
+  }
   return (
     <div className="relative w-full">
       <div className="flex overflow-x-auto pb-6 gap-6 snap-x snap-mandatory scroll-smooth scrollbar-hide">
-        {experiences.map((experience, index) => (
+        {MOCK_PROJECTS.map((experience, index) => (
           <Card
             key={index}
             className="overflow-hidden border-none bg-[rgb(66,74,89)] shadow-xl group flex-shrink-0 w-[350px] snap-start"
