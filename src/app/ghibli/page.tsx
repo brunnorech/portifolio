@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useRef } from "react";
 import Image from "next/image";
 import {
   ArrowRight,
@@ -24,6 +24,7 @@ import { Badge } from "../../components/ui/badge";
 import SplitText from "@/src/components/ui/splitted-text";
 import FadeContent from "@/src/components/ui/fade-content";
 import ProjectExperience from "../components/project-experience";
+import RotatingText from "@/src/components/ui/rotating-text";
 
 const Footer = () => {
   return (
@@ -37,28 +38,12 @@ const Footer = () => {
 };
 
 export default function GhibliPortfolio() {
-  const [showtextExperience, setShowtextExperience] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isExiting, setIsExiting] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const keywords = [
     "experiências mágicas",
     "jornadas visuais",
     "mundos encantados",
   ];
-
-  useEffect(() => {
-    if (showtextExperience) {
-      const interval = setInterval(() => {
-        setIsExiting(true);
-        setTimeout(() => {
-          setCurrentIndex((prevIndex) => (prevIndex + 1) % keywords.length);
-          setIsExiting(false);
-        }, 500);
-      }, 3000);
-      return () => clearInterval(interval);
-    }
-  }, [showtextExperience, keywords.length]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -167,33 +152,32 @@ export default function GhibliPortfolio() {
 
       <section
         id="início"
-        className="container mx-auto px-4 py-20 md:py-32 flex flex-col md:flex-row items-center"
+        className="container mx-auto px-4 py-20 md:py-32 flex flex-col md:flex-row items-center gap-8"
       >
         <div className="md:w-1/2 space-y-6">
           <SplitText
             text="Transformando ideias em"
-            className="text-4xl md:text-6xl font-bold text-[#1d3557]"
+            className="text-4xl md:text-5xl font-bold text-[#1d3557]"
             animationFrom={{ opacity: 0, transform: "translate3d(0,50px,0)" }}
             animationTo={{ opacity: 1, transform: "translate3d(0,0,0)" }}
             threshold={0.2}
             delay={50}
             rootMargin="-50px"
-            onLetterAnimationComplete={() => setShowtextExperience(true)}
           />
-          {showtextExperience && (
-            <SplitText
-              text={keywords[currentIndex]}
-              className="text-4xl md:text-6xl text-[#e76f51] font-bold transition-opacity duration-500"
-              animationFrom={{
-                opacity: 0,
-                transform: "translate3d(0,50px,0)",
-              }}
-              animationTo={{ opacity: 1, transform: "translate3d(0,0,0)" }}
-              threshold={0.2}
-              delay={0}
-              isExiting={isExiting}
+          <FadeContent duration={4000} easing="ease-out" initialOpacity={0}>
+            <RotatingText
+              texts={keywords}
+              mainClassName="flex flex-row"
+              staggerFrom={"last"}
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "-120%" }}
+              staggerDuration={0.025}
+              splitLevelClassName="overflow-hidden pb-0.5 sm:pb-1 md:pb-1 text-4xl md:text-5xl  text-[#e76f51] font-bold transition-opacity duration-500"
+              transition={{ type: "spring", damping: 30, stiffness: 400 }}
+              rotationInterval={4000}
             />
-          )}
+          </FadeContent>
           <FadeContent duration={1000} easing="ease-out" initialOpacity={0.5}>
             <p className="text-[#457b9d] text-lg md:text-xl max-w-md">
               Desenvolvimento fullstack de alta qualidade com foco em

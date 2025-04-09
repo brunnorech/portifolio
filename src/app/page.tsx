@@ -19,17 +19,15 @@ import {
 
 import dynamic from "next/dynamic";
 import ProjectExperience from "./components/project-experience";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import SplitText from "../components/ui/splitted-text";
 import FadeContent from "../components/ui/fade-content";
+import RotatingText from "../components/ui/rotating-text";
 const Footer = dynamic(() => import("./components/footer"), { ssr: false });
 const Chatbot = dynamic(() => import("./components/chat-bot"), { ssr: false });
 
 export default function Home() {
   const formRef = useRef<HTMLFormElement>(null);
-  const [showtextExperience, setShowtextExperience] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isExiting, setIsExiting] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -101,23 +99,6 @@ export default function Home() {
     "responsividade",
   ];
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIsExiting(true);
-
-      setTimeout(() => {
-        setCurrentIndex((current) => (current + 1) % keywords.length);
-
-        setTimeout(() => {
-          setIsExiting(false);
-          setShowtextExperience(true);
-        }, 200);
-      }, 1000);
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <div className="min-h-screen bg-[rgb(66,74,89)]">
       <header className="container mx-auto py-6 px-4 flex justify-between items-center">
@@ -150,33 +131,35 @@ export default function Home() {
 
       <section
         id="início"
-        className="container mx-auto px-4 py-20 md:py-32 flex flex-col md:flex-row items-center"
+        className="container mx-auto px-4 py-20 md:py-32 flex flex-col md:flex-row items-center gap-8"
       >
         <div className="md:w-1/2 space-y-6">
-          <SplitText
-            text="Transformando ideias em"
-            className="text-4xl md:text-6xl font-bold text-white"
-            animationFrom={{ opacity: 0, transform: "translate3d(0,50px,0)" }}
-            animationTo={{ opacity: 1, transform: "translate3d(0,0,0)" }}
-            threshold={0.2}
-            delay={50}
-            rootMargin="-50px"
-            onLetterAnimationComplete={() => setShowtextExperience(true)}
-          />
-          {showtextExperience && (
+          <div>
             <SplitText
-              text={keywords[currentIndex]}
-              className="text-4xl md:text-6xl text-sky-400 font-bold transition-opacity duration-500"
-              animationFrom={{
-                opacity: 0,
-                transform: "translate3d(0,50px,0)",
-              }}
+              text="Transformando ideias em"
+              className="text-4xl md:text-5xl font-bold text-white"
+              animationFrom={{ opacity: 0, transform: "translate3d(0,50px,0)" }}
               animationTo={{ opacity: 1, transform: "translate3d(0,0,0)" }}
               threshold={0.2}
-              delay={0}
-              isExiting={isExiting}
+              delay={50}
+              rootMargin="-50px"
             />
-          )}
+            <FadeContent duration={4000} easing="ease-out" initialOpacity={0}>
+              <RotatingText
+                texts={keywords}
+                mainClassName="flex flex-row"
+                staggerFrom={"last"}
+                initial={{ y: "100%" }}
+                animate={{ y: 0 }}
+                exit={{ y: "-120%" }}
+                staggerDuration={0.025}
+                splitLevelClassName="overflow-hidden pb-0.5 sm:pb-1 md:pb-1 text-4xl md:text-5xl  text-sky-400 font-bold transition-opacity duration-500"
+                transition={{ type: "spring", damping: 30, stiffness: 400 }}
+                rotationInterval={4000}
+              />
+            </FadeContent>
+          </div>
+
           <FadeContent duration={1000} easing="ease-out" initialOpacity={0.5}>
             <p className="text-gray-300 text-lg md:text-xl max-w-md">
               Desenvolvimento fullstack de alta qualidade com foco em
